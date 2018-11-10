@@ -2,11 +2,21 @@
 // Written by Richert Wang for CS 32, F18.
 
 #include "WordCount.h"
+#include <stdio.h>
+#include <ctype.h>
+#include <cctype>
 
-using namespace std;
+//testpurposes
+#include <iostream>
+#include <fstream>
 
 // Default constructor
-WordCount::WordCount() {}
+WordCount::WordCount() {
+  for ( unsigned i =0; i < CAPACITY; i++)
+    {
+      table[i].clear();
+    }
+}
 
 // Simple hash function. Do not modify.
 size_t WordCount::hash(std::string word) const {
@@ -18,36 +28,129 @@ size_t WordCount::hash(std::string word) const {
 }
 
 int WordCount::getTotalWords() const {
-	// STUB - your solution from Lab04 goes here
-	return -1;
+  int counter = 0;
+  for (unsigned i = 0; i < CAPACITY; i++)
+    {
+      for (unsigned j = 0; j < table[i].size(); j++)
+	{
+	  counter += static_cast<int>( (table[i].at(j)).second );
+	}
+    }
+  return counter;
 }
 
 int WordCount::getNumUniqueWords() const {
-	// STUB - your solution from Lab04 goes here
-	return -1;
+  int counter = 0;
+  for (unsigned i = 0; i < CAPACITY; i++)
+    {
+      for (unsigned j = 0; j < table[i].size(); j++)
+	{
+	  counter++;
+	}
+    }
+  return counter;
 }
-
-int WordCount::getWordCount(std::string word) const {
-	// STUB - your solution from Lab04 goes here
-	return -1;
+/* std::string WordCount::toUp(std::string word){
+  std::string ans = "";
+  for (unsigned i = 0; i < word.length();i++)
+    {
+      ans += toupper(word[i]);
+    }
+  return ans;
+  } */
+int WordCount::getWordCount(std::string word) const { 
+  std::string lword = stripWord(word);
+  std::string fword = "";
+  for (unsigned i = 0; i < lword.length();i++)
+    {
+      fword += toupper(lword[i]);
+    }
+  if (fword.compare("") == 0) return 0;
+  size_t i = hash(fword);
+  for ( unsigned j = 0; j < table[i].size();j++)
+    {
+      if ( ((table[i].at(j)).first).compare(fword) == 0)
+         {
+	   return static_cast<int>( (table[i].at(j)).second );
+	 }
+    }
+  return 0;
 }
 	
 
 int WordCount::incrWordCount(std::string word) {
-	// STUB - your solution from Lab04 goes here
-	return -1;
+  std::string lword = stripWord(word);
+  std::string fword = "";
+  for (unsigned i = 0; i < lword.length();i++)
+    {
+      fword += toupper(lword[i]);
+    }
+  if (fword.compare("") == 0) return 0;
+  size_t i = hash(fword);
+  int index = 0;
+  if ( getWordCount(fword) == 0)
+    {
+      std::pair<std::string,size_t> nword;
+      nword.first = fword;
+      nword.second = 1;
+      table[i].push_back(nword);
+      //std::cout << nword.first << std::endl;
+      return 1;
+    }
+  else
+    {
+      for (unsigned j = 0; j <table[i].size();j++)
+	{
+	  if ( ((table[i].at(j)).first).compare(fword) == 0)
+	    {
+	      index = j;
+	    }
+	}
+      (table[i].at(index)).second++;
+      //std::cout << (table[i].at(index)).first << std::endl;
+      return (table[i].at(index)).second;
+    }     
 }
 
 
 bool WordCount::isWordChar(char c) {
-	// STUB - your solution from Lab04 goes here
-	return false;
+  if (isalpha(c))
+    {
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 
 std::string WordCount::stripWord(std::string word) {
-	// STUB - your solution from Lab04 goes here
-	return "";
+  std::string ans = "";
+  
+  for ( unsigned i = 0; i < word.length(); i++)
+    {
+      if ( isalpha(word[i]) )
+	{
+	  ans += word[i];
+	}
+      else if ( word[i] == '-' || word[i] == '\'')
+	{
+	  if ( i == 0 || i == word.length()-1)
+	    {
+	      //do nothing
+	    }
+	  else if ( !isalpha(word[i-1]) || !isalpha(word[i+1]) ) 
+	    {
+	        //do nothing
+	    }
+	  else
+	    {
+	      ans += word[i];
+	    }
+	}
+    }
+  return ans;
 }
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
