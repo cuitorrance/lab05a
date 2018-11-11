@@ -223,16 +223,19 @@ void WordCount::addAllWords(std::string text) {
   int i = 0;
   std::string word = ""; 
    for (auto x : text) 
-   { 
-       if (x == ' ' || x == '\n') 
-       { 
-	 i = incrWordCount(stripWord(word));    
-         word = ""; 
-       } 
-       else
-       { 
-         word = word + x; 
-       } 
+   {
+     if ( i > -1)
+       {
+	 if (x == ' ' || x == '\n') 
+	   { 
+	     i = incrWordCount(stripWord(word));    
+	     word = ""; 
+	   } 
+	 else
+	   { 
+	     word = word + x; 
+	   }
+       }
    }
    i = incrWordCount(stripWord(word));
    return;
