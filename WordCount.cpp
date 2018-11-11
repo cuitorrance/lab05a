@@ -154,6 +154,8 @@ std::string WordCount::stripWord(std::string word) {
     }
   return ans;
 }
+
+//for min priority queue
 struct compare
 {
   bool operator()(const std::pair<std::string,size_t> &l, const std::pair<std::string, size_t> &r)
@@ -161,24 +163,6 @@ struct compare
     return l.first > r.first;
   }
 };
-
-void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
-  std::priority_queue<std::pair<std::string,size_t> , std::vector<std::pair<std::string,size_t>> , compare>  q;
-
-  for ( unsigned i = 0; i <CAPACITY; i++)
-    {
-      for (unsigned j = 0; j < table[i].size();j++)
-	{
-	  q.push(table[i].at(j));
-	}
-    }
-  while ( !q.empty())
-    {
-      out << q.top().first << "," << q.top().second << std::endl;
-      q.pop();
-    }
-    return;
-}
 struct compare1
 {
   bool operator()(const std::pair<size_t, std::string> &l, const std::pair<size_t, std::string> &r)
@@ -194,6 +178,24 @@ struct compare1
   }
 };
 
+void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
+  std::priority_queue<std::pair<std::string,size_t> , std::vector<std::pair<std::string,size_t>> , compare>  q;
+
+  for ( unsigned i = 0; i <CAPACITY; i++)
+    {
+      for (unsigned j = 0; j < table[i].size();j++)
+	{
+	  q.push(table[i].at(j));
+	}
+    }
+  while (!q.empty())
+    {
+      out << q.top().first << "," << q.top().second << std::endl;
+      q.pop();
+    }
+    return;
+}
+
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
   std::priority_queue<std::pair<size_t, std::string> , std::vector<std::pair<size_t, std::string>> , compare1>  q;
 
@@ -208,7 +210,7 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 	  q.push(p);
 	}
     }
-  while ( !q.empty())
+  while (!q.empty())
     {
       out << q.top().second << "," << q.top().first << std::endl;
       q.pop();

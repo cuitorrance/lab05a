@@ -42,6 +42,7 @@ int main()
 
   cout << "ALPHABETICALLY" << endl << "--------------" << endl;
   w.dumpWordsSortedByWord(std::cout);
+  cout << endl;
   cout << "BY OCCURENCE" << endl << "--------------" << endl;			
   w.dumpWordsSortedByOccurence(std::cout);
        
