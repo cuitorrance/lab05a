@@ -32,14 +32,18 @@ int main()
   
   for (unsigned n = 0; n < v.size(); n++)
     {
-      cout << "-----------------" << endl;
-      cout << v.at(n) << endl ;
+      //cout << "-----------------" << endl;
+      //cout << v.at(n) << endl ;
       i = w.incrWordCount( v.at(n) );
-      i = w.incrWordCount( v.at(n) );
-      cout << "total unique words: " << w.getNumUniqueWords() << endl;
-      cout << "total words: " << w.getTotalWords() << endl;
+      // i = w.incrWordCount( v.at(n) );
+      //cout << "total unique words: " << w.getNumUniqueWords() << endl;
+      //cout << "total words: " << w.getTotalWords() << endl;
     }
 
+  cout << "ALPHABETICALLY" << endl << "--------------" << endl;
+  w.dumpWordsSortedByWord(std::cout);
+  cout << "BY OCCURENCE" << endl << "--------------" << endl;			
+  w.dumpWordsSortedByOccurence(std::cout);
        
   return 0;
 }

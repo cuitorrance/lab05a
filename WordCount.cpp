@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <cctype>
-
+#include <queue>
+#include <functional>
+#include <vector>
 //testpurposes
 #include <iostream>
 #include <fstream>
@@ -152,14 +154,65 @@ std::string WordCount::stripWord(std::string word) {
     }
   return ans;
 }
+struct compare
+{
+  bool operator()(const std::pair<std::string,size_t> &l, const std::pair<std::string, size_t> &r)
+  {
+    return l.first > r.first;
+  }
+};
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
-	// STUB
-	return;
+  std::priority_queue<std::pair<std::string,size_t> , std::vector<std::pair<std::string,size_t>> , compare>  q;
+
+  for ( unsigned i = 0; i <CAPACITY; i++)
+    {
+      for (unsigned j = 0; j < table[i].size();j++)
+	{
+	  q.push(table[i].at(j));
+	}
+    }
+  while ( !q.empty())
+    {
+      out << q.top().first << "," << q.top().second << std::endl;
+      q.pop();
+    }
+    return;
 }
+struct compare1
+{
+  bool operator()(const std::pair<size_t, std::string> &l, const std::pair<size_t, std::string> &r)
+  {
+    if (l.first == r.first)
+      {
+	return l.second > r.second;
+      }
+    else
+      {
+	return l.first < r.first;
+      }
+  }
+};
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
-	// STUB
+  std::priority_queue<std::pair<size_t, std::string> , std::vector<std::pair<size_t, std::string>> , compare1>  q;
+
+  std::pair<size_t, std::string> p;
+  
+  for ( unsigned i = 0; i <CAPACITY; i++)
+    {
+      for (unsigned j = 0; j < table[i].size();j++)
+	{
+	  p.first = (table[i].at(j)).second;
+	  p.second =( table[i].at(j)).first;
+	  q.push(p);
+	}
+    }
+  while ( !q.empty())
+    {
+      out << q.top().second << "," << q.top().first << std::endl;
+      q.pop();
+    }
 	return;
 }
 
