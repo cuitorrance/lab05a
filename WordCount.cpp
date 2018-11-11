@@ -8,6 +8,7 @@
 #include <queue>
 #include <functional>
 #include <vector>
+#include <bits/stdc++.h>
 //testpurposes
 #include <iostream>
 #include <fstream>
@@ -219,6 +220,20 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 }
 
 void WordCount::addAllWords(std::string text) {
-	// STUB
-	return;
+  int i;
+  std::string word = ""; 
+   for (auto x : text) 
+   { 
+       if (x == ' ' || x == '\n') 
+       { 
+	 i = incrWordCount(stripWord(word));    
+         word = ""; 
+       } 
+       else
+       { 
+         word = word + x; 
+       } 
+   }
+   i = incrWordCount(stripWord(word));
+   return;
 }

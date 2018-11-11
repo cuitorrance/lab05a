@@ -40,6 +40,10 @@ int main()
       //cout << "total words: " << w.getTotalWords() << endl;
     }
 
+  w.addAllWords("Sentence is a sentence.");
+
+  // w.addAllWords("Geek for Geeks");
+
   cout << "ALPHABETICALLY" << endl << "--------------" << endl;
   w.dumpWordsSortedByWord(std::cout);
   cout << endl;
