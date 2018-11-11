@@ -220,7 +220,7 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 }
 
 void WordCount::addAllWords(std::string text) {
-  int i;
+  int i = 0;
   std::string word = ""; 
    for (auto x : text) 
    { 
